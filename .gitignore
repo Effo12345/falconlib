@@ -15,3 +15,6 @@ temp.log
 temp.errors
 *.ini
 .d/
+
+# Compiled library files
+*.zip
