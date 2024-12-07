@@ -1,5 +1,6 @@
 #pragma once
 #include "falconlib/display/lvglutil.hpp"
+#include "falconlib/display/selector/abstractselector.hpp"
 
 
 
@@ -13,37 +14,30 @@
 
 namespace falconlib {
 
-    class ScreenArraySelector {
+    class ScreenArraySelector : AbstractSelector {
         using inputData = std::vector<std::vector<std::pair<std::string, std::function<void()>>>>;
 
-        //Declare the default constructor as private to ensure it is never called.
-        //ptrSelector MUST be initialized
+        // Disallow default constructor
         ScreenArraySelector() = delete;
 
-        //Dummy function to call when no auton is selected
-        void None();
+        void internalInit();
+        void internalDisable();
+
+        void setSelection(lv_event_t* event);
+        void back(lv_event_t* event);
 
         std::vector<Button> mainPage;
-
         std::map<lv_obj_t*, std::function<void()>> buttonMap;
 
-        Button backButton = Button(lv_scr_act(), 0, 0, 75, 40, "Back", true);;
-        lv_obj_t* autonName = lv_label_create(lv_scr_act());
+        std::unique_ptr<Button> backButton;
+        lv_obj_t* autonName = nullptr;
 
-        std::function<void()> autonToRun;
+        const inputData& input;
 
     public:
-        ScreenArraySelector(inputData input = {});
+        ScreenArraySelector(const inputData& userFunctions = {});
 
-        std::function<void()> getSelection();
-        void runSelection();
-
-        void setActive(bool istate);
-
-        void setSelection(lv_obj_t* btn);
-        void back();
-
-        void test(lv_event_t*);
+        void setActive(bool state);
     };
 
 }
