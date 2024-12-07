@@ -14,7 +14,7 @@
 
 namespace falconlib {
 
-    class ScreenArraySelector : AbstractSelector {
+    class ScreenArraySelector : public AbstractSelector {
         using inputData = std::vector<std::vector<std::pair<std::string, std::function<void()>>>>;
 
         // Disallow default constructor
