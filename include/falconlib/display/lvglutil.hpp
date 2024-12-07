@@ -17,7 +17,7 @@ struct Callback<Ret(Params...)> {
 template <typename Ret, typename... Params>
 std::function<Ret(Params...)> Callback<Ret(Params...)>::func;
 
-typedef lv_res_t (*lv_callback_t)(lv_obj_t*);
+typedef void (*lv_callback_t)(lv_event_t*);
 
 inline void lv_obj_set_hidden(lv_obj_t* obj, bool isHidden) {
    if (isHidden)
