@@ -65,6 +65,9 @@ namespace falconlib {
      * @param istate The desired state to set
      */
     void ScreenArraySelector::setActive(bool state) {
+        if (!isInit)
+            return;
+
         for(auto& button : mainPage) {
             button.setHidden(!state);
         }

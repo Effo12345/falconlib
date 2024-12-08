@@ -18,6 +18,7 @@ namespace falconlib {
         virtual void internalLoop() {}
 
         std::function<void()> autonToRun;
+        bool isInit = false;
 
     public:
         void init();

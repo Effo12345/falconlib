@@ -5,15 +5,25 @@
 namespace falconlib {
 
     void AbstractSelector::init() {
+        if (isInit)
+            return;
+
         autonToRun = nullptr;
-        
+
         startTask("auton_selector");
         internalInit();
+
+        isInit = true;
     }
 
     void AbstractSelector::disable() {
+        if (!isInit)
+            return;
+
         stopTask();
         internalDisable();
+
+        isInit = false;
     }
 
     void AbstractSelector::run() {
