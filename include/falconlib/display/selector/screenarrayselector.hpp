@@ -31,6 +31,7 @@ namespace falconlib {
 
     public:
         ScreenArraySelector(const inputData userFunctions = {});
+        ~ScreenArraySelector();
 
         void setActive(bool state);
     };

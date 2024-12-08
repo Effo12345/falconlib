@@ -5,6 +5,10 @@ namespace falconlib {
 
     ScreenArraySelector::ScreenArraySelector(const inputData input) : userFunctions{input} {}
 
+    ScreenArraySelector::~ScreenArraySelector() {
+        internalDisable();
+    }
+
     void ScreenArraySelector::internalInit() {
         pros::lcd::shutdown();
 
