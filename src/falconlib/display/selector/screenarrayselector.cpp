@@ -1,21 +1,18 @@
 #include "falconlib/display/selector/screenarrayselector.hpp"
-#include "falconlib/display/button.hpp"
-#include "falconlib/display/lvglutil.hpp"
-#include "liblvgl/core/lv_event.h"
 #include "liblvgl/llemu.hpp"
 
 namespace falconlib {
 
-    ScreenArraySelector::ScreenArraySelector(const inputData& userFunctions) : input{userFunctions} {}
+    ScreenArraySelector::ScreenArraySelector(const inputData input) : userFunctions{input} {}
 
     void ScreenArraySelector::internalInit() {
         pros::lcd::shutdown();
 
         //Check if any of the rows or columns are out of bounds
-        if(input.size() > 3)
+        if(userFunctions.size() > 3)
             throw std::runtime_error("Auton selector overflow");
-        for(int i = 0; i < input.size(); i++) {
-            if(input[i].size() > 5)
+        for(int i = 0; i < userFunctions.size(); i++) {
+            if(userFunctions[i].size() > 5)
                 throw std::runtime_error("Auton selector overflow");
         }
 
@@ -28,11 +25,11 @@ namespace falconlib {
         lv_callback_t backCb = lv_build_event_cb(std::bind(&ScreenArraySelector::back, this, std::placeholders::_1));
 
         //Initialize selector buttons
-        for(int i = 0; i < input.size(); i++) {
-            for(int j = 0; j < input[i].size(); j++) {
-                mainPage.push_back(Button(lv_scr_act(), i, j, input[i][j].first.c_str(), false));
+        for(int i = 0; i < userFunctions.size(); i++) {
+            for(int j = 0; j < userFunctions[i].size(); j++) {
+                mainPage.push_back(Button(lv_scr_act(), i, j, userFunctions[i][j].first.c_str(), false));
                 int buttonIndex = mainPage.size() - 1;
-                buttonMap.insert({mainPage[buttonIndex].getInternalButton(), input[i][j].second});
+                buttonMap.insert({mainPage[buttonIndex].getInternalButton(), userFunctions[i][j].second});
             
                 // lv_btn_set_action(mainPage[buttonIndex].getInternalButton(), LV_BTN_ACTION_CLICK, selectionTrampoline);
                 lv_obj_add_event_cb(mainPage[buttonIndex].getInternalButton(), selectionCb, LV_EVENT_CLICKED, NULL);
@@ -52,11 +49,11 @@ namespace falconlib {
     }
 
     void ScreenArraySelector::internalDisable() {
-        pros::lcd::initialize();
-
         buttonMap.clear();
         backButton.reset();
         lv_obj_del(autonName);
+
+        pros::lcd::initialize();
     }
 
     /**

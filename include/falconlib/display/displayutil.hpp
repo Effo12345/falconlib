@@ -19,6 +19,7 @@ namespace falconlib {
    template <typename Ret, typename... Params>
    std::function<Ret(Params...)> Callback<Ret(Params...)>::func;
 
+   // LVGL utils
    typedef void (*lv_callback_t)(lv_event_t*);
 
    inline void lv_obj_set_hidden (lv_obj_t* obj, bool isHidden) {
@@ -31,6 +32,14 @@ namespace falconlib {
    inline lv_callback_t lv_build_event_cb (std::function<void(_lv_event_t *)> func) {
       Callback<void(lv_event_t*)>::func = func;
       return static_cast<lv_callback_t>(Callback<void(lv_event_t*)>::callback);
+   }
+
+   // LLEMU utils
+   typedef void (*llemu_callback_t)(void);
+
+   inline llemu_callback_t llemu_build_btn_cb(std::function<void(void)> func) {
+      Callback<void(void)>::func = func;
+      return static_cast<llemu_callback_t>(Callback<void(void)>::callback);
    }
 
 } // namespace falconlib

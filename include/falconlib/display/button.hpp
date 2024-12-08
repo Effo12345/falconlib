@@ -1,6 +1,6 @@
 #pragma once
 #include "liblvgl/lvgl.h"
-#include "falconlib/display/lvglutil.hpp"
+#include "falconlib/display/displayutil.hpp"
 
 namespace falconlib {
 

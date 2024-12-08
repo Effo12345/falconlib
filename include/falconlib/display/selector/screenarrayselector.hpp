@@ -1,16 +1,11 @@
 #pragma once
-#include "falconlib/display/lvglutil.hpp"
+#include "falconlib/display/displayutil.hpp"
 #include "falconlib/display/selector/abstractselector.hpp"
-
-
-
-#pragma once
-#include <stdexcept>
+#include "falconlib/display/button.hpp"
 #include <string>
 #include <vector>
 #include <map>
 #include <functional>
-#include "falconlib/display/button.hpp"
 
 namespace falconlib {
 
@@ -32,10 +27,10 @@ namespace falconlib {
         std::unique_ptr<Button> backButton;
         lv_obj_t* autonName = nullptr;
 
-        const inputData& input;
+        const inputData userFunctions;
 
     public:
-        ScreenArraySelector(const inputData& userFunctions = {});
+        ScreenArraySelector(const inputData userFunctions = {});
 
         void setActive(bool state);
     };
