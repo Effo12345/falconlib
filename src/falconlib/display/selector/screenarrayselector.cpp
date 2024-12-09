@@ -31,12 +31,13 @@ namespace falconlib {
         //Initialize selector buttons
         for(int i = 0; i < userFunctions.size(); i++) {
             for(int j = 0; j < userFunctions[i].size(); j++) {
-                mainPage.push_back(Button(lv_scr_act(), i, j, userFunctions[i][j].first.c_str(), false));
+                // mainPage.push_back(Button(lv_scr_act(), i, j, userFunctions[i][j].first.c_str(), false));
+                mainPage.push_back(std::make_shared<Button>(lv_scr_act(), i, j, userFunctions[i][j].first.c_str(), false));
                 int buttonIndex = mainPage.size() - 1;
-                buttonMap.insert({mainPage[buttonIndex].getInternalButton(), userFunctions[i][j].second});
+                buttonMap.insert({mainPage[buttonIndex]->getInternalButton(), userFunctions[i][j].second});
             
                 // lv_btn_set_action(mainPage[buttonIndex].getInternalButton(), LV_BTN_ACTION_CLICK, selectionTrampoline);
-                lv_obj_add_event_cb(mainPage[buttonIndex].getInternalButton(), selectionCb, LV_EVENT_CLICKED, NULL);
+                lv_obj_add_event_cb(mainPage[buttonIndex]->getInternalButton(), selectionCb, LV_EVENT_CLICKED, NULL);
             }
         }
 
@@ -69,8 +70,8 @@ namespace falconlib {
         if (!isInit)
             return;
 
-        for(auto& button : mainPage) {
-            button.setHidden(!state);
+        for(auto b : mainPage) {
+            b->setHidden(!state);
         }
 
         backButton->setHidden(!state);
@@ -90,8 +91,8 @@ namespace falconlib {
         autonToRun = buttonMap[btn];
         lv_label_set_text(autonName, lv_label_get_text(lv_obj_get_child(btn, 0)));
 
-        for(Button b : mainPage) {
-            b.setHidden(true);
+        for(auto b : mainPage) {
+            b->setHidden(true);
         }
 
         backButton->setHidden(false);
@@ -110,8 +111,8 @@ namespace falconlib {
 
         lv_label_set_text(autonName, "Returned");
 
-        for(Button b : mainPage) {
-            b.setHidden(false);
+        for(auto b : mainPage) {
+            b->setHidden(false);
         }
 
         backButton->setHidden(true);

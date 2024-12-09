@@ -46,8 +46,8 @@ namespace falconlib {
     }
 
     Button::~Button() {
-        lv_obj_del(button);
-        lv_obj_del(label);
+        lv_obj_del_async(button);
+        lv_obj_del_async(label);
     }
 
 } // namespace falconlib

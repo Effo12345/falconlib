@@ -21,7 +21,7 @@ namespace falconlib {
         void setSelection(lv_event_t* event);
         void back(lv_event_t* event);
 
-        std::vector<Button> mainPage;
+        std::vector<std::shared_ptr<Button>> mainPage;
         std::map<lv_obj_t*, std::function<void()>> buttonMap;
 
         std::unique_ptr<Button> backButton;
