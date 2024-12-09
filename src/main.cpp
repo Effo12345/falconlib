@@ -1,13 +1,20 @@
 #include "main.h"
+#include "falconlib/display/selector/screencycleselector.hpp"
 #include "pros/rtos.hpp"
 #include "falconlib/display/selector/screenarrayselector.hpp"
 
 void test() {}
 
-falconlib::ScreenArraySelector sel = falconlib::ScreenArraySelector({
-	{{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test}},
-    {{"Full WP", test}},
-    {{"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}}
+// falconlib::ScreenArraySelector sel = falconlib::ScreenArraySelector({
+// 	{{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test}},
+//     {{"Full WP", test}},
+//     {{"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}}
+// });
+
+falconlib::ScreenCycleSelector sel = falconlib::ScreenCycleSelector({
+	{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test},
+    {"Full WP", test},
+    {"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}
 });
 
 /**

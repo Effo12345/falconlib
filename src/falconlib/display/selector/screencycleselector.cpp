@@ -12,8 +12,16 @@ namespace falconlib {
 
     void ScreenCycleSelector::internalInit() {
         pros::lcd::initialize();
-        pros::lcd::register_btn0_cb(llemu_build_btn_cb(std::bind(&ScreenCycleSelector::leftBtnCb, this)));
-        pros::lcd::register_btn2_cb(llemu_build_btn_cb(std::bind(&ScreenCycleSelector::rightBtnCb, this)));
+
+        const int leftBtnCbId = 223856782;
+        Callback<void(void), leftBtnCbId>::func = std::bind(&ScreenCycleSelector::leftBtnCb, this);
+        llemu_callback_t leftBtn = static_cast<llemu_callback_t>(Callback<void(void), leftBtnCbId>::callback);
+        pros::lcd::register_btn0_cb(leftBtn);
+
+        const int rightBtnCbId = -9386581;
+        Callback<void(void), rightBtnCbId>::func = std::bind(&ScreenCycleSelector::rightBtnCb, this);
+        llemu_callback_t rightBtn = static_cast<llemu_callback_t>(Callback<void(void), rightBtnCbId>::callback);
+        pros::lcd::register_btn2_cb(rightBtn);
 
         update();
     }

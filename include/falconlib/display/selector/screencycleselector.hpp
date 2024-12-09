@@ -24,7 +24,6 @@ namespace falconlib {
 
     public:
         ScreenCycleSelector(const inputData input, int lineNum = 0);
-
     };
 
 } // namespace falconlib
