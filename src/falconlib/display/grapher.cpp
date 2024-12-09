@@ -1,5 +1,6 @@
 #include "falconlib/display/grapher.hpp"
 #include "liblvgl/extra/widgets/chart/lv_chart.h"
+#include "liblvgl/llemu.hpp"
 #include "liblvgl/misc/lv_color.h"
 
 namespace falconlib {
@@ -14,6 +15,8 @@ namespace falconlib {
     void Grapher::init(int min, int max, int pointCount) {
         if (isInit)
             return;
+
+        pros::lcd::shutdown();
         
         chart = lv_chart_create(lv_scr_act());
 
@@ -37,10 +40,12 @@ namespace falconlib {
         serMap.clear();
         lv_obj_del(chart);
 
+        pros::lcd::initialize();
+
         isInit = false;
     }
 
-    void Grapher::newData(double data, lv_palette_t series) {
+    void Grapher::newData(int data, lv_palette_t series) {
         if (!isInit)
             return;
 

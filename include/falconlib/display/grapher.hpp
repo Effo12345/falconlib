@@ -20,7 +20,7 @@ namespace falconlib {
         void init(int min, int max, int pointCount = 250);
         void disable();
 
-        void newData(double data, lv_palette_t series);
+        void newData(int data, lv_palette_t series);
         void clear();
     };
 

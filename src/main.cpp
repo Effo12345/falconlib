@@ -2,6 +2,7 @@
 #include "falconlib/display/selector/screencycleselector.hpp"
 #include "pros/rtos.hpp"
 #include "falconlib/display/selector/screenarrayselector.hpp"
+#include "falconlib/display/grapher.hpp"
 
 void test() {}
 
@@ -11,11 +12,13 @@ void test() {}
 //     {{"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}}
 // });
 
-falconlib::ScreenCycleSelector sel = falconlib::ScreenCycleSelector({
-	{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test},
-    {"Full WP", test},
-    {"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}
-});
+// falconlib::ScreenCycleSelector sel = falconlib::ScreenCycleSelector({
+// 	{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test},
+//     {"Full WP", test},
+//     {"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}
+// });
+
+falconlib::Grapher graph = falconlib::Grapher();
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -29,7 +32,22 @@ void initialize() {
 
 	// pros::lcd::register_btn1_cb(on_center_button);
 
-	sel.init();
+	// sel.init();
+	
+	// pros::lcd::initialize();
+
+	graph.init(-100, 100);
+	double theta = 0.0;
+	while (true) {
+		graph.newData(cos(theta + M_PI) * 100, LV_PALETTE_BLUE);
+		graph.newData(cos(theta) * 100, LV_PALETTE_RED);
+
+		theta += 0.05;
+		pros::delay(20);
+	}
+
+	pros::delay(2000);
+	graph.disable();
 }
 
 /**
