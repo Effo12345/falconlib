@@ -3,6 +3,10 @@
 
 namespace falconlib {
 
+    static void test (lv_event_t* event) {
+        lv_label_create(lv_scr_act());
+    }
+
     ScreenArraySelector::ScreenArraySelector(const inputData input) : userFunctions{input} {}
 
     ScreenArraySelector::~ScreenArraySelector() {
@@ -25,8 +29,14 @@ namespace falconlib {
         autonName = lv_label_create(lv_scr_act());
 
         // Generate callbacks for button presses
-        lv_callback_t selectionCb = lv_build_event_cb(std::bind(&ScreenArraySelector::setSelection, this, std::placeholders::_1));
-        lv_callback_t backCb = lv_build_event_cb(std::bind(&ScreenArraySelector::back, this, std::placeholders::_1));
+        const int selectionCbId = -975682751;
+        Callback<void(lv_event_t*), selectionCbId>::func = std::bind(&ScreenArraySelector::setSelection, this, std::placeholders::_1);
+        lv_callback_t selectionCb = static_cast<lv_callback_t>(Callback<void(lv_event_t*), selectionCbId>::callback);
+        const int backCbId = 185610950;
+        Callback<void(lv_event_t*), backCbId>::func = std::bind(&ScreenArraySelector::back, this, std::placeholders::_1);
+        lv_callback_t backCb = static_cast<lv_callback_t>(Callback<void(lv_event_t*), backCbId>::callback);
+        // lv_callback_t selectionCb = lv_build_event_cb(std::bind(&ScreenArraySelector::setSelection, this, std::placeholders::_1), -10);
+        // lv_callback_t backCb = lv_build_event_cb(std::bind(&ScreenArraySelector::back, this, std::placeholders::_1));
 
         //Initialize selector buttons
         for(int i = 0; i < userFunctions.size(); i++) {
@@ -45,7 +55,7 @@ namespace falconlib {
         lv_obj_add_event_cb(backButton->getInternalButton(), backCb, LV_EVENT_CLICKED, NULL);
 
         //Sets theme to night
-        lv_theme_t * th = lv_theme_default_init(lv_disp_get_default(), lv_color_hex(0xff0000), lv_color_hex(0x00ff00), true, LV_FONT_DEFAULT);
+        lv_theme_t * th = lv_theme_default_init(lv_disp_get_default(), lv_color_hex(0x4b4c43), lv_color_hex(0x00ff00), true, LV_FONT_DEFAULT);
         lv_disp_set_theme(lv_disp_get_default(), th);
 
         //Places autonName in the correct spot

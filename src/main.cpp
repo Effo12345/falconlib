@@ -5,8 +5,9 @@
 void test() {}
 
 falconlib::ScreenArraySelector sel = falconlib::ScreenArraySelector({
-	{{"Test1", test}, {"Test2", test}},
-	{{"Test3", test}}
+	{{"L 6 Disc", test}, {"L 3 Disc", test}, {"L Roller", test}},
+    {{"Full WP", test}},
+    {{"R 6 Disc", test}, {"R 3 Disc", test}, {"R Roller", test}}
 });
 
 /**

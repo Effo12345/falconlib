@@ -4,20 +4,20 @@
 
 namespace falconlib {
 
-   template <typename T>
+   template <typename T, int tag = 0>
    struct Callback;
 
-   template <typename Ret, typename... Params>
-   struct Callback<Ret(Params...)> {
-      template <typename... Args> 
-      static Ret callback (Args... args) {                    
-         return func(args...);  
+   template <typename Ret, typename... Params, int tag>
+   struct Callback<Ret(Params...), tag> {
+      template <typename... Args>
+      static Ret callback (Args... args) {
+         return func(args...);
       }
-      static std::function<Ret(Params...)> func; 
+      static std::function<Ret(Params...)> func;
    };
 
-   template <typename Ret, typename... Params>
-   std::function<Ret(Params...)> Callback<Ret(Params...)>::func;
+   template <typename Ret, typename... Params, int tag>
+   std::function<Ret(Params...)> Callback<Ret(Params...), tag>::func;
 
    // LVGL utils
    typedef void (*lv_callback_t)(lv_event_t*);
@@ -29,10 +29,10 @@ namespace falconlib {
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_HIDDEN);
    }
 
-   inline lv_callback_t lv_build_event_cb (std::function<void(_lv_event_t *)> func) {
-      Callback<void(lv_event_t*)>::func = func;
-      return static_cast<lv_callback_t>(Callback<void(lv_event_t*)>::callback);
-   }
+   // inline lv_callback_t lv_build_event_cb (std::function<void(lv_event_t *)> func, const int id) {
+   //    Callback<void(lv_event_t*), id>::func = func;
+   //    return static_cast<lv_callback_t>(Callback<void(lv_event_t*), id>::callback);
+   // }
 
    // LLEMU utils
    typedef void (*llemu_callback_t)(void);
