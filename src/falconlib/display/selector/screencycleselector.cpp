@@ -27,6 +27,10 @@ namespace falconlib {
     }
 
     void ScreenCycleSelector::internalDisable() {
+        // Reinit lcd to clear callbacks
+        pros::lcd::shutdown();
+        pros::lcd::initialize();
+
         selPos = 0;
     }
 
